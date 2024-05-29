@@ -1,6 +1,7 @@
 from django.http import HttpResponseForbidden
 from django.contrib.auth.models import Group
 from django.shortcuts import redirect
+from django.urls import reverse
 
 
 def is_member(user, group_names):
@@ -15,7 +16,7 @@ def microsoft_login_required(groups=None):
     def _wrapper(view_func):
         def _view_wrapper(request, *args, **kwargs):
             if not request.user.is_authenticated:
-                return redirect("/microsoft_authentication/login")
+                return redirect(reverse("microsoft_authentication:microsoft_authentication_login"))
             if groups:
                 if is_member(
                     user=request.user,
